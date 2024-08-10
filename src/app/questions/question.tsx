@@ -1,18 +1,20 @@
-export default function Question({
-  id, 
-  title,
-  answer,
-  actual_answer,
-  onChangeAnswer,
-  error
-} : {
+
+type QuestionProps = {
   id: number,
   title: string,
   answer: string[],
   actual_answer: any,
   onChangeAnswer: any,
   error: string
-}) {
+}
+
+export default function Question({
+  id, 
+  title,
+  actual_answer,
+  onChangeAnswer,
+  error
+}: QuestionProps ) {
   return (
     <>
       <div className="mt-5 mb-5">
@@ -23,7 +25,6 @@ export default function Question({
           id={"answer-" + id}
           defaultValue={actual_answer}
           onChange={(e) => {
-            console.log(e.target.value)
             onChangeAnswer(e.target.value, id)
           }}
           />

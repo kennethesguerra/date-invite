@@ -13,10 +13,10 @@ export default function Home() {
         alt="Kash Aku"
         width={400}
         height={400} 
-        className="mb-5 rounded-full"
+        className="mb-10 rounded-full shadow-lg"
       />
       <h1 className="text-2xl mb-20">Hello, Kash!</h1>
-      <button className="g-blue-500 bg-blue-700 text-white font-bold py-2 px-4 rounded-full" onClick={() => {
+      <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" onClick={() => {
         router.push('/questions')
       }}>
         Get Started

@@ -12,10 +12,16 @@ export default function Questions() {
   const [questions, setQuestions] = useState(data.questions);
   const [isAllCorrect, setIsAllCorrect] = useState(false);
   const [hasError, setHasError] = useState(false);
+  let [numAttempts, setNumAttempts] = useState(0);
 
   let redirectToInvitation = false;
 
   const validateAnswers = () => {
+    let correctAns: number = 0;
+
+    numAttempts++;
+    setNumAttempts(numAttempts);
+
     questions.map(question => {
       if ((question.actual_answer === null || "") 
         || !question.answer.includes(question.actual_answer.toLocaleLowerCase())) {
@@ -23,11 +29,16 @@ export default function Questions() {
         setHasError(true);
       }
       else {
-        setIsAllCorrect(true);
-        setHasError(false);
-        redirectToInvitation = true;
+        question.error = "";
+        correctAns++;
       }
     })
+
+    if (correctAns === questions.length) {
+      setIsAllCorrect(true);
+      setHasError(false);
+      redirectToInvitation = true;
+    }
 
     if (redirectToInvitation) {
       setTimeout(() => {
@@ -42,8 +53,8 @@ export default function Questions() {
         <>
           <div className="mt-20">
             <svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130.2 130.2">
-              <circle className="path circle" fill="none" stroke="#73AF55" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
-              <polyline className="path check" fill="none" stroke="#73AF55" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
+              <circle className="path circle" fill="none" stroke="#000000" stroke-width="6" stroke-miterlimit="10" cx="65.1" cy="65.1" r="62.1" />
+              <polyline className="path check" fill="none" stroke="#000000" stroke-width="6" stroke-linecap="round" stroke-miterlimit="10" points="100.2,40.2 51.5,88.8 29.8,67.5 " />
             </svg>
             <p className="sucessmsg mt-10">You got it all right!</p>
           </div>
@@ -58,12 +69,11 @@ export default function Questions() {
             {questions && questions.map((question, i) => {
               return <Question key={i} {...question} onChangeAnswer={(value: string, id: number) => {
                 questions.filter(question => question.id === id).map(question => question.actual_answer = value)
-                console.log(questions);
                 setQuestions(questions)
               }} />
             })}
             <div className="mt-20 flex flex-col items-center">
-              <button className="bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
+                <button className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow"
                 onClick={validateAnswers}>
                 Submit
               </button>
